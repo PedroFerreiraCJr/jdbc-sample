@@ -18,6 +18,7 @@ public class TestaConexao {
 	public static void main(String[] args) {
 		logger.info("Loja Virtual - Testando conexão com o banco MySQL.");
 		testaConexao();
+		logger.info("Loja Virtual - Execução concluída.");
 	}
 
 	private static void testaConexao() {

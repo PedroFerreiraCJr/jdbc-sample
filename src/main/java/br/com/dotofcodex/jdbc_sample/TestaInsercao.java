@@ -17,7 +17,7 @@ public class TestaInsercao {
 	public static void main(String[] args) {
 		logger.info("Loja Virtual - Inserindo produtos na base loja_virtual.");
 		inserirProduto();
-		logger.info("Loja Virtual - Execução concluída");
+		logger.info("Loja Virtual - Execução concluída.");
 	}
 
 	private static void inserirProduto() {

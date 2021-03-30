@@ -17,7 +17,7 @@ public class TestaListagem {
 	public static void main(String[] args) {
 		logger.info("Loja Virtual - Consultando produtos na base loja_virtual.");
 		consultaProdutos();
-		logger.info("Loja Virtual - Execução concluída");
+		logger.info("Loja Virtual - Execução concluída.");
 	}
 
 	private static void consultaProdutos() {
