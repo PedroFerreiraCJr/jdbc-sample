@@ -13,7 +13,7 @@ import br.com.dotofcodex.jdbc_sample.datasource.ConnectionFactory;
 
 public class TestaInsercaoComParametro {
 
-	private static final Logger logger = LoggerFactory.getLogger(TestaInsercao.class);
+	private static final Logger logger = LoggerFactory.getLogger(TestaInsercaoComParametro.class);
 
 	public static void main(String[] args) {
 		logger.info("Loja Virtual - Inserindo produtos na base loja_virtual.");
