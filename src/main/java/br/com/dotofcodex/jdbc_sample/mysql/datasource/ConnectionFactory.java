@@ -1,4 +1,4 @@
-package br.com.dotofcodex.jdbc_sample.datasource;
+package br.com.dotofcodex.jdbc_sample.mysql.datasource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 
 public class ConnectionFactory {
 
+	private static final Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
+	
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/loja_virtual?useTimezone=true&serverTimezone=UTC";
 	private static final String USER = "root";
 	private static final String PASSWORD = "pedro";
-
-	private static final Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
 
 	private static ConnectionFactory instance;
 

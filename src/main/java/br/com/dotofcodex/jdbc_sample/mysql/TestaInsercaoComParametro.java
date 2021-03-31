@@ -1,4 +1,4 @@
-package br.com.dotofcodex.jdbc_sample;
+package br.com.dotofcodex.jdbc_sample.mysql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.dotofcodex.jdbc_sample.datasource.ConnectionFactory;
+import br.com.dotofcodex.jdbc_sample.mysql.datasource.ConnectionFactory;
 
 public class TestaInsercaoComParametro {
 

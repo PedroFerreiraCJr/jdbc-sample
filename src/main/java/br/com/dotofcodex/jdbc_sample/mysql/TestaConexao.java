@@ -1,4 +1,4 @@
-package br.com.dotofcodex.jdbc_sample;
+package br.com.dotofcodex.jdbc_sample.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
