@@ -1,8 +1,8 @@
 package br.com.dotofcodex.jdbc_sample;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +15,20 @@ public class TestaRemocao {
 
 	public static void main(String[] args) {
 		logger.info("Loja Virtual - Removendo produtos na base loja_virtual.");
-		removerProduto();
+		removerProduto(4);
 		logger.info("Loja Virtual - Execução concluída.");
 	}
 
-	private static void removerProduto() {
+	private static void removerProduto(int id) {
 		try (final Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			logger.info("Removendo valores duplicados da tabela de produtos.");
 
-			final Statement stmt = conn.createStatement();
-			stmt.execute("DELETE FROM produto p WHERE p.id = 4");
+			final String sql = "DELETE FROM produto p WHERE p.id = ?";
+			
+			final PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+			
+			stmt.execute();
 
 			int deleted = stmt.getUpdateCount();
 			if (deleted == 1) {

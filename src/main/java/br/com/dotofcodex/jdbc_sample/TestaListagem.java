@@ -1,9 +1,9 @@
 package br.com.dotofcodex.jdbc_sample;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +23,12 @@ public class TestaListagem {
 	private static void consultaProdutos() {
 		try (final Connection conn = ConnectionFactory.getInstance().getConnection()) {
 			logger.info("Consultando...");
-			final Statement stmt = conn.createStatement();
-			boolean hasResultSet = stmt.execute("SELECT id, nome, descricao FROM produto");
-
+			
+			final String sql = "SELECT id, nome, descricao FROM produto";
+			
+			final PreparedStatement stmt = conn.prepareStatement(sql);
+			boolean hasResultSet = stmt.execute();
+			
 			if (hasResultSet) {
 				logger.info("Recuperando valores resultantes da consulta...");
 				final ResultSet result = stmt.getResultSet();
