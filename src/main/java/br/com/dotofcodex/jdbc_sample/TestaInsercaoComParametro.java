@@ -29,12 +29,11 @@ public class TestaInsercaoComParametro {
 
 			final String sql = "INSERT INTO produto(nome, descricao) VALUES(?, ?)";
 
-			final PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			try (final PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+				preencheValores("Smart TV", "42 Polegadas", stmt);
+				preencheValores("SmartPhone", "Samsung", stmt);
+			}
 
-			preencheValores("Smart TV", "42 Polegadas", stmt);
-			preencheValores("SmartPhone", "Samsung", stmt);
-
-			stmt.close();
 			conn.commit();
 		} catch (SQLException e) {
 			logger.error("Falha na conexão", e);
