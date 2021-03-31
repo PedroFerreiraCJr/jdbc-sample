@@ -22,25 +22,34 @@ public class TestaInsercaoComParametro {
 	}
 
 	private static void inserirProduto() {
-		try (final Connection conn = ConnectionFactory.getInstance().getConnection()) {
+		final Connection conn = ConnectionFactory.getInstance().getConnection();
+		try {
 			conn.setAutoCommit(false);
 			logger.info("Inserindo valores na tabela de produtos.");
 
-			final String sql = "INSERT INTO produto(nome, descricao) VALUES(?, ?);";
+			final String sql = "INSERT INTO produto(nome, descricao) VALUES(?, ?)";
 
 			final PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			preencheValores("Smart TV", "42 Polegadas", stmt);
 			preencheValores("SmartPhone", "Samsung", stmt);
+
+			stmt.close();
+			conn.commit();
 		} catch (SQLException e) {
 			logger.error("Falha na conexão", e);
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
 	private static void preencheValores(String nome, String descricao, final PreparedStatement stmt)
 			throws SQLException {
 		logger.info(String.format("Inserindo produto %s...", nome));
-		
+
 		stmt.setString(1, nome);
 		stmt.setString(2, descricao);
 
