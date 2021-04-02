@@ -11,6 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.dotofcodex.jdbc_sample.mysql.model.Categoria;
 import br.com.dotofcodex.jdbc_sample.mysql.model.Produto;
 
 public class ProdutoDAO {
@@ -46,6 +47,21 @@ public class ProdutoDAO {
 		final List<Produto> produtos = new ArrayList<>();
 		final String sql = "SELECT id, nome, descricao FROM produto";
 		try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (final ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					produtos.add(new Produto(rs.getLong("id"), rs.getString("nome"), rs.getString("descricao")));
+				}
+			}
+		}
+
+		return produtos;
+	}
+
+	public List<Produto> buscar(Categoria categoria) throws SQLException {
+		final List<Produto> produtos = new ArrayList<>();
+		final String sql = "SELECT id, nome, descricao FROM produto WHERE categoria_id = ?";
+		try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setLong(1, categoria.getId());
 			try (final ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					produtos.add(new Produto(rs.getLong("id"), rs.getString("nome"), rs.getString("descricao")));
