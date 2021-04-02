@@ -4,6 +4,7 @@ public class Produto {
 	private Long id;
 	private String nome;
 	private String descricao;
+	private Categoria categoria;
 
 	public Produto(String nome, String descricao) {
 		super();
@@ -32,6 +33,14 @@ public class Produto {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
 	@Override
