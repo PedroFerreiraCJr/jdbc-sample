@@ -11,6 +11,13 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
+	public Produto(Long id, String nome, String descricao) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+	}
+
 	public Long getId() {
 		return id;
 	}

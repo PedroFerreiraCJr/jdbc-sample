@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,5 +40,19 @@ public class ProdutoDAO {
 						produto.getNome(), produto.getDescricao()));
 			}
 		}
+	}
+
+	public List<Produto> listar() throws SQLException {
+		final List<Produto> produtos = new ArrayList<>();
+		final String sql = "SELECT id, nome, descricao FROM produto";
+		try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (final ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					produtos.add(new Produto(rs.getLong("id"), rs.getString("nome"), rs.getString("descricao")));
+				}
+			}
+		}
+
+		return produtos;
 	}
 }
