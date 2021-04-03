@@ -43,15 +43,33 @@ public class ProdutoDAO {
 		}
 	}
 
+	public void salvarComCategoria(Produto produto) throws SQLException {
+		String sql = "INSERT INTO produto (nome, descricao, categoria_id) VALUES (?, ?, ?)";
+
+		try (PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+			pstm.setString(1, produto.getNome());
+			pstm.setString(2, produto.getDescricao());
+			pstm.setLong(3, produto.getCategoria().getId());
+
+			pstm.execute();
+
+			try (ResultSet rst = pstm.getGeneratedKeys()) {
+				while (rst.next()) {
+					produto.setId(rst.getLong(1));
+				}
+			}
+		}
+	}
+
 	public List<Produto> listar() throws SQLException {
 		final List<Produto> produtos = new ArrayList<>();
 		final String sql = "SELECT id, nome, descricao FROM produto";
+
 		try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
-			try (final ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					produtos.add(new Produto(rs.getLong("id"), rs.getString("nome"), rs.getString("descricao")));
-				}
-			}
+			stmt.execute();
+
+			trasformarResultSetEmProduto(produtos, stmt);
 		}
 
 		return produtos;
@@ -60,15 +78,41 @@ public class ProdutoDAO {
 	public List<Produto> buscar(Categoria categoria) throws SQLException {
 		final List<Produto> produtos = new ArrayList<>();
 		final String sql = "SELECT id, nome, descricao FROM produto WHERE categoria_id = ?";
+
 		try (final PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setLong(1, categoria.getId());
-			try (final ResultSet rs = stmt.executeQuery()) {
-				while (rs.next()) {
-					produtos.add(new Produto(rs.getLong("id"), rs.getString("nome"), rs.getString("descricao")));
-				}
-			}
+			stmt.execute();
+
+			trasformarResultSetEmProduto(produtos, stmt);
 		}
 
 		return produtos;
+	}
+
+	public void deletar(Integer id) throws SQLException {
+		try (PreparedStatement stm = conn.prepareStatement("DELETE FROM produto WHERE ID = ?")) {
+			stm.setInt(1, id);
+			stm.execute();
+		}
+	}
+
+	public void alterar(String nome, String descricao, Integer id) throws SQLException {
+		try (PreparedStatement stm = conn
+				.prepareStatement("UPDATE produto p SET p.nome = ?, p.descricao = ? WHERE ID = ?")) {
+			stm.setString(1, nome);
+			stm.setString(2, descricao);
+			stm.setInt(3, id);
+			stm.execute();
+		}
+	}
+
+	private void trasformarResultSetEmProduto(List<Produto> produtos, PreparedStatement pstm) throws SQLException {
+		try (ResultSet rst = pstm.getResultSet()) {
+			while (rst.next()) {
+				Produto produto = new Produto(rst.getLong(1), rst.getString(2), rst.getString(3));
+
+				produtos.add(produto);
+			}
+		}
 	}
 }
