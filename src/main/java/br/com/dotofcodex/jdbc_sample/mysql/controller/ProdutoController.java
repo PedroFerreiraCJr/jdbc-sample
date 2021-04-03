@@ -1,27 +1,57 @@
 package br.com.dotofcodex.jdbc_sample.mysql.controller;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import br.com.dotofcodex.jdbc_sample.mysql.dao.ProdutoDAO;
 import br.com.dotofcodex.jdbc_sample.mysql.model.Produto;
+import br.com.dotofcodex.jdbc_sample.oracle.datasource.ConnectionFactory;
 
 public class ProdutoController {
 
+	private static final Logger logger = LoggerFactory.getLogger(ProdutoController.class);
+
+	private final ProdutoDAO dao;
+
+	public ProdutoController() {
+		super();
+		this.dao = new ProdutoDAO(ConnectionFactory.getConnection());
+	}
+
 	public void deletar(Integer id) {
-		System.out.println("Deletando produto");
+		try {
+			this.dao.deletar(id);
+		} catch (SQLException e) {
+			logger.info("Houve uma falha no método deletar de ProdutoController", e);
+		}
 	}
 
 	public void salvar(Produto produto) {
-		System.out.println("Salvando produto");
+		try {
+			this.dao.salvar(produto);
+		} catch (SQLException e) {
+			logger.info("Houve uma falha no salvar de ProdutoController", e);
+		}
 	}
 
 	public List<Produto> listar() {
-		List<Produto> produtos = new ArrayList<Produto>();
-		produtos.add(new Produto("Nome do Produto de teste", "Descrição do produto de teste"));
-		return produtos;
+		try {
+			return this.dao.listar();
+		} catch (SQLException e) {
+			logger.info("Houve uma falha na consulta a listar de ProdutoController", e);
+		}
+
+		return null;
 	}
 
 	public void alterar(String nome, String descricao, Integer id) {
-		System.out.println("Alterando produto");
+		try {
+			this.dao.alterar(nome, descricao, id);
+		} catch (SQLException e) {
+			logger.info("Houve uma falha na consulta a alterar de ProdutoController", e);
+		}
 	}
 }
