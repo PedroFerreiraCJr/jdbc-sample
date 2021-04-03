@@ -26,10 +26,12 @@ public class ProdutoDAO {
 	}
 
 	public void salvar(Produto produto) throws SQLException {
-		final String sql = "INSERT INTO produto(nome, descricao) VALUES(?, ?)";
+		final String sql = "INSERT INTO produto(nome, descricao, categoria_id) VALUES(?, ?, ?)";
 		try (final PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, produto.getNome());
 			stmt.setString(2, produto.getDescricao());
+			stmt.setLong(3, produto.getCategoria().getId());
+			System.out.println(produto.getCategoria().getId());
 			stmt.execute();
 
 			try (final ResultSet rs = stmt.getGeneratedKeys()) {
@@ -89,9 +91,9 @@ public class ProdutoDAO {
 		return produtos;
 	}
 
-	public void deletar(Integer id) throws SQLException {
+	public void deletar(Long id) throws SQLException {
 		try (PreparedStatement stm = conn.prepareStatement("DELETE FROM produto WHERE ID = ?")) {
-			stm.setInt(1, id);
+			stm.setLong(1, id);
 			stm.execute();
 		}
 	}

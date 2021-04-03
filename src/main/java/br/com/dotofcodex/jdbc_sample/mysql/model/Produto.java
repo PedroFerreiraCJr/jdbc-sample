@@ -10,6 +10,7 @@ public class Produto {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
+		this.categoria = new Categoria();
 	}
 
 	public Produto(Long id, String nome, String descricao) {
@@ -17,6 +18,7 @@ public class Produto {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
+		this.categoria = new Categoria();
 	}
 
 	public Long getId() {

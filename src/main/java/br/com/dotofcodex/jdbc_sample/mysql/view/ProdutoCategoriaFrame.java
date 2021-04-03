@@ -162,8 +162,8 @@ public class ProdutoCategoriaFrame extends JFrame {
 
 	private void deletar() {
 		Object objetoDaLinha = (Object) modelo.getValueAt(tabela.getSelectedRow(), tabela.getSelectedColumn());
-		if (objetoDaLinha instanceof Integer) {
-			Integer id = (Integer) objetoDaLinha;
+		if (objetoDaLinha instanceof Long) {
+			Long id = (Long) objetoDaLinha;
 			this.produtoController.deletar(id);
 			modelo.removeRow(tabela.getSelectedRow());
 			JOptionPane.showMessageDialog(this, "Item excluído com sucesso!");
@@ -188,7 +188,7 @@ public class ProdutoCategoriaFrame extends JFrame {
 	}
 
 	private void salvar() {
-		if (!textoNome.getText().equals("") && !textoDescricao.getText().equals("")) {
+		if (!textoNome.getText().equals("") && !textoDescricao.getText().equals("") && comboCategoria.getSelectedIndex() > 0) {
 			Produto produto = new Produto(textoNome.getText(), textoDescricao.getText());
 			Categoria categoria = (Categoria) comboCategoria.getSelectedItem();
 			produto.getCategoria().setId(categoria.getId());
@@ -196,7 +196,7 @@ public class ProdutoCategoriaFrame extends JFrame {
 			JOptionPane.showMessageDialog(this, "Salvo com sucesso!");
 			this.limpar();
 		} else {
-			JOptionPane.showMessageDialog(this, "Nome e Descrição devem ser informados.");
+			JOptionPane.showMessageDialog(this, "Nome, Descrição e Categoria devem ser informados.");
 		}
 	}
 

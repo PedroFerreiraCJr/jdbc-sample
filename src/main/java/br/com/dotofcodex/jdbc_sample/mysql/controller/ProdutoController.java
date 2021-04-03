@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.dotofcodex.jdbc_sample.mysql.dao.ProdutoDAO;
+import br.com.dotofcodex.jdbc_sample.mysql.datasource.ConnectionFactory;
 import br.com.dotofcodex.jdbc_sample.mysql.model.Produto;
-import br.com.dotofcodex.jdbc_sample.oracle.datasource.ConnectionFactory;
 
 public class ProdutoController {
 
@@ -18,10 +18,10 @@ public class ProdutoController {
 
 	public ProdutoController() {
 		super();
-		this.dao = new ProdutoDAO(ConnectionFactory.getConnection());
+		this.dao = new ProdutoDAO(ConnectionFactory.getInstance().getConnection());
 	}
 
-	public void deletar(Integer id) {
+	public void deletar(Long id) {
 		try {
 			this.dao.deletar(id);
 		} catch (SQLException e) {
