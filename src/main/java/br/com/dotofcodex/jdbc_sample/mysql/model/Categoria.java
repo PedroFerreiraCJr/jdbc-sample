@@ -20,14 +20,16 @@ public class Categoria {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return nome;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Categoria [id=").append(id).append(", nome=").append(nome).append("]");
-		return builder.toString();
+		return this.nome;
 	}
 }
